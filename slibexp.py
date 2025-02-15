@@ -81,16 +81,22 @@ def update_gametime():
         if key in gamehash:
             if value > gamehash[key]:
                 output += f"UPDATE lib SET hours_played = {value} WHERE vg_name = '{key}'; \n"
-    output += f"\nINSERT INTO lib(vg_name, hours_played)\nVALUES"
+
 
     outputlist = []
     for key, value in steamhash.items():
         if key not in gamehash and key != 'Wallpaper Engine':
             outputlist.append([key.replace("'","''"), value])
 
-    for i in range(len(outputlist)-2):
-        output += f"('{outputlist[i][0]}', {outputlist[i][1]}),\n"
-    output += f"('{outputlist[-1][0]}',{outputlist[-1][1]});"
+    if len(outputlist) >= 1:
+        output += f"\nINSERT INTO lib(vg_name, hours_played)\nVALUES"
+
+    if len(outputlist) == 1:
+        output += f"('{outputlist[0][0]}',{outputlist[0][1]});"
+    elif len(outputlist) > 1:
+        for i in range(len(outputlist)-2):
+            output += f"('{outputlist[i][0]}', {outputlist[i][1]}),\n"
+        output += f"('{outputlist[-1][0]}',{outputlist[-1][1]});"
 
     with open('updatequery.txt', 'w') as f:
         f.write(output)
