@@ -9,11 +9,15 @@ with open('steam_library.json', 'r') as f:
 
 output = (f'INSERT INTO video_games (vg_name, hours_played) \n '
           f'VALUES ')
+outputlist = []
 for game in data:
     game_name = game['name'].replace("'", "''")
     hours_played = math.floor(game['playtime_forever'] / 60)
-    output += f"('{game_name}', {hours_played}), \n"
-output += ';'
+    outputlist.append([game_name, hours_played])
+
+for i in range(len(outputlist)-2):
+    output += f"('{outputlist[i][0]}', {outputlist[i][1]}), \n"
+output += f"('{outputlist[-1][0]}', {outputlist[-1][1]});"
 
 with open('query.txt', 'w') as f:
     f.write(output)

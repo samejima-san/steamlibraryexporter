@@ -113,7 +113,6 @@ def add_data_for_lost_hours():
     #game_name main_story
     for game in games:
         howlonggames += hltb.search(game[0])
-        #howlonggames.append((game[0].game_name, game[0].main_story))
 
     output = ""
     for game in howlonggames:
@@ -127,8 +126,9 @@ def add_data_for_lost_hours():
     conn.close()
 
 if __name__ == "__main__":
-    update_gametime()
-   #add_data_for_lost_hours()
+    #update_gametime()
+    #add_data_for_lost_hours()
+    pass
 
 
 
